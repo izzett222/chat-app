@@ -10,7 +10,7 @@
     "build": "npm run migrateDb && babel ./src --out-dir ./build",
     "dev": "nodemon --exec babel-node src/server.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "cover": "nyc --reporter=html --reporter=text npm test"
+    "cover": "cross-env NODE_ENV=test npx sequelize db:migrate:undo:all && cross-env NODE_ENV=test npx sequelize db:migrate && cross-env NODE_ENV=test nyc --reporter=html --reporter=text npm test"
   },
   "repository": {
     "type": "git",
@@ -24,10 +24,19 @@
   },
   "homepage": "https://github.com/izzett222/chat-app#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "joi": "^17.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.3.0",
+    "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.3",
     "sequelize-cli": "^6.2.0",
-    "dotenv": "^8.2.0"
+    "swagger-jsdoc": "^4.3.0",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.4",
