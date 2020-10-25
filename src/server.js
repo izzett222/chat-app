@@ -2,12 +2,16 @@ import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import { json, urlencoded } from 'body-parser';
+import cors from 'cors';
 import userRoute from './routes/user';
 import swaggerRoute from './routes/swagger/swagger';
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(cors());
+app.options('*', cors())
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(morgan('dev'));
