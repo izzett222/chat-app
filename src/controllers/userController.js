@@ -5,7 +5,7 @@ import { createToken } from '../utils/handleJWT';
 
 config();
 
-const signupController = async (req, res) => {
+export const signupController = async (req, res) => {
   const { User } = db;
   const {
     userName, password,
@@ -25,5 +25,23 @@ const signupController = async (req, res) => {
     return res.status(500).json({ error: 'server error' });
   }
 };
-
-export default signupController;
+export const loginController = async (req, res) => {
+  const { password, userName } = req.body;
+  const { User } = db;
+  try {
+    const user = await User.findOne({
+      where: {
+        userName,
+      },
+    });
+    if (!user) {
+      return res.status(400).json({ data: { error: 'Login failed, wrong username or password' } });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return res.status(400).json({ data: { error: 'Login failed, wrong username or password' } });
+    }
+    return res.status(200).json({ data: { message: 'Login successful', token: createToken(user.id) } });
+  } catch (err) {
+    return res.status(500).json({ error: 'server error' });
+  }
+};
