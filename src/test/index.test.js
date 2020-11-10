@@ -17,4 +17,14 @@ describe('test the welcome api', () => {
         done();
       });
   });
+  it('should return route not found if the user hit an unknown route', (done) => {
+    chai
+      .request(app)
+      .get('/feregregfreg')
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        expect(res.body.message).to.equal('route not found');
+        done();
+      });
+  });
 });

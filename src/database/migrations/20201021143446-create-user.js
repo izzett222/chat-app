@@ -14,6 +14,10 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
       },
+      friends: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        defaultValue: [],
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
