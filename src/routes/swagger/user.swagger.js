@@ -86,3 +86,27 @@
  *       '200':
  *             description: Profile info retrieved successfully
  * */
+
+/**
+ * @swagger
+ * /api/v1/user/friends/add/{userName}:
+ *   patch:
+ *     tags:
+ *       - User
+ *     name: Login
+ *     summary: get user profile
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: token
+ *         in: header
+ *         description: jwt token of the user
+ *       - name: userName
+ *         in: path
+ *         description: friend userName
+ *     responses:
+ *       '200':
+ *             description: User added successfully
+ * */
