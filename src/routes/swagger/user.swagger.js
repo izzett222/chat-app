@@ -65,3 +65,24 @@
  *       '400':
  *             description: Login failed, wrong username or password.
  * */
+
+/**
+ * @swagger
+ * /api/v1/user/profile:
+ *   get:
+ *     tags:
+ *       - User
+ *     name: Login
+ *     summary: get user profile
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: token
+ *         in: header
+ *         description: jwt token of the user
+ *     responses:
+ *       '200':
+ *             description: Profile info retrieved successfully
+ * */

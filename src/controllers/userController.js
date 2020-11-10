@@ -45,3 +45,13 @@ export const loginController = async (req, res) => {
     return res.status(500).json({ error: 'server error' });
   }
 };
+
+export const profileController = async (req, res) => {
+  const { user } = req;
+  return res.status(200).json({
+    data: {
+      message: 'Profile info retrieved successfully',
+      user,
+    },
+  });
+};
