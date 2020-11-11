@@ -1,6 +1,5 @@
 import { config } from 'dotenv';
 import bcrypt from 'bcrypt';
-import { Sequelize } from 'sequelize';
 import db from '../database/models';
 import { createToken } from '../utils/handleJWT';
 
@@ -56,46 +55,4 @@ export const profileController = async (req, res) => {
       user,
     },
   });
-};
-
-export const addFriendController = async (req, res) => {
-  const { user } = req;
-  const { userName } = req.params;
-  try {
-    const friend = await db.User.findOne({
-      where: {
-        userName: userName.toLowerCase(),
-      },
-      attributes: { exclude: ['password'] },
-    });
-
-    if (!friend) {
-      return res.status(404).json({
-        data: {
-          message: 'User not found',
-        },
-      });
-    }
-    if (friend.id === user.id) {
-      return res.status(400).json({
-        data: {
-          message: 'The username should be different than yours',
-        },
-      });
-    }
-    await db.User.update({
-      friends: Sequelize.fn('array_append', Sequelize.col('friends'), friend.id),
-    }, { where: { id: user.id }, returning: true, plain: true });
-
-    await db.User.update({
-      friends: Sequelize.fn('array_append', Sequelize.col('friends'), user.id),
-    }, { where: { id: friend.id }, returning: true, plain: true });
-    return res.status(200).json({
-      data: {
-        message: 'User added successfully',
-      },
-    });
-  } catch (err) {
-    return res.status(500).json({ error: 'server error' });
-  }
 };

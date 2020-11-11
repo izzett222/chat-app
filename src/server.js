@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
 import userRoute from './routes/user';
+import chatRoute from './routes/chat';
 import swaggerRoute from './routes/swagger/swagger';
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'welcome to chat-app api' });
 });
 app.use('/api/v1/user', userRoute);
+app.use('/api/v1/chat', chatRoute);
 app.use('*', (req, res) => {
   res.status(404).json({ message: 'route not found' });
 });

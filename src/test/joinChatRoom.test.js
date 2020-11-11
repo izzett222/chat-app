@@ -29,7 +29,7 @@ describe('TEST SIGNUP', () => {
   it('should return a error message if user is not found', (done) => {
     chai
       .request(app)
-      .patch('/api/v1/user/friends/add/nonexistantuser')
+      .get('/api/v1/chat/join/nfvfbghngj')
       .set('token', token)
       .end((err, res) => {
         expect(res.status).to.equal(404);
@@ -40,7 +40,7 @@ describe('TEST SIGNUP', () => {
   it('should return a error message if the user search themselves', (done) => {
     chai
       .request(app)
-      .patch('/api/v1/user/friends/add/newuser12')
+      .get('/api/v1/chat/join/newuser12')
       .set('token', token)
       .end((err, res) => {
         expect(res.status).to.equal(400);
@@ -48,14 +48,16 @@ describe('TEST SIGNUP', () => {
         done();
       });
   });
-  it('should return a successful message when the user is found', (done) => {
+  it('should return a successful message and the friend info when the user is found', (done) => {
     chai
       .request(app)
-      .patch('/api/v1/user/friends/add/newuser122')
+      .get('/api/v1/chat/join/newuser122')
       .set('token', token)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.data.message).to.equal('User added successfully');
+        expect(res.body.data.message).to.equal('chat room joined successfully');
+        expect(res.body.data.friend.userName).to.equal('newuser122');
+        expect(res.body.data.friend.id).to.be.an('number');
         done();
       });
   });
