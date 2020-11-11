@@ -72,7 +72,7 @@
  *   get:
  *     tags:
  *       - User
- *     name: Login
+ *     name: Get User profile
  *     summary: get user profile
  *     produces:
  *       - application/json
@@ -89,12 +89,12 @@
 
 /**
  * @swagger
- * /api/v1/user/friends/add/{userName}:
- *   patch:
+ * /api/v1/chat/join/{userName}:
+ *   get:
  *     tags:
- *       - User
- *     name: Login
- *     summary: get user profile
+ *       - Chat
+ *     name: Join chat room
+ *     summary: Join chat room
  *     produces:
  *       - application/json
  *     consumes:
@@ -108,5 +108,5 @@
  *         description: friend userName
  *     responses:
  *       '200':
- *             description: User added successfully
+ *             description: chat room joined successfully
  * */
