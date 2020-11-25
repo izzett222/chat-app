@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input {
+            display: block;
+            margin-bottom: 20px;
+        }
+        button {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        #message {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HEllo world</h1>
+<div class="chat-messages">
+        <div class="message-container">
+           <h4 class="name">me</h4>
+        <p class="message"> first message</p> 
+        </div>
+        <h3></h3>
+    </div>
+    <label for="receiver">
+        sender
+    </label>
+    <input id="sender" />
+    <label for="receiver">receiver</label>
+    <input id="receiver" />
+    <label for="chatId">chatId</label>
+    <input type="text" id="chatId" />
+    <button id="join">join</button>
+    <label for="message">message</label>
+    <input type="text" id="message"/>
+    <button type="button"id="send">send</button>
+    
+    <script src = "/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io({
+            query: {
+                token: localStorage.getItem("token")
+            }
+        })
+        let receiver;
+        let sender;
+        function joinRoom(e) {
+            e.preventDefault();
+            const input = document.querySelector('#chatId');
+            const chatId = input.value;
+            socket.emit('room', { chatId })
+           
+
+        }
+        
+        function sendMessage(e) {
+            e.preventDefault();
+            const input = document.querySelector('#message')
+            const chatId = document.querySelector('#chatId').value
+            sender = document.querySelector('#sender').value
+            receiver = document.querySelector('#receiver').value
+            const text = input.value;
+            socket.emit('newMessage', { message: text, sender, receiver})
+        }
+
+        socket.on('connect_error', (reason) => {
+            document.querySelector('h3').textContent = reason.data.err;
+        });
+        
+        socket.on('messages', (data) => {
+            const h2 = document.createElement('h2');
+            const paragraph = document.createElement('p')
+            const div = document.createElement('div')
+            div.classList.add('message-container');
+            if(data.sender === sender) {
+                h2.textContent = 'me';
+            } else {
+                h2.textContent = data.sender;
+            }
+           
+            paragraph.textContent = data.message;
+            div.appendChild(h2);
+            div.appendChild(paragraph);
+            document.querySelector('.chat-messages').appendChild(div);
+            
+        })
+
+        document.querySelector("#send").addEventListener('click', sendMessage);
+        document.querySelector("#join").addEventListener('click', joinRoom);
+     </script>
+</body>
+</html>
